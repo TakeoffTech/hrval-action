@@ -17,6 +17,9 @@ inputs:
   helmVersion:
     description: 'Version of Helm to validate against'
     default: 'v2'
+  ignoreExpression:
+    default: .*
+    description: Expression to ignore path
 outputs:
   numFilesTested:
     description: The number of HelmRelease files which were tested
@@ -29,3 +32,4 @@ runs:
     - ${{ inputs.ignoreValues }}
     - ${{ inputs.kubernetesVersion }}
     - ${{ inputs.helmVersion }}
+    - ${{ inputs.ignoreExpression }}
