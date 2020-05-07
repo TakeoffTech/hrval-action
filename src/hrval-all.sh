@@ -6,6 +6,7 @@ DIR=${1}
 IGNORE_VALUES=${2-false}
 KUBE_VER=${3-master}
 HELM_VER=${4-v2}
+IGNORE_EXPRESSION=${5-.*}
 HRVAL="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/hrval.sh"
 
 if [[ ${HELM_VER} == "v2" ]]; then
@@ -37,6 +38,10 @@ function isHelmRelease {
 DIR_PATH=$(echo ${DIR} | sed "s/^\///;s/\/$//")
 FILES_TESTED=0
 for f in `find ${DIR} -type f -name '*.yaml' -or -name '*.yml'`; do
+  if [[ ${f} =~ ${IGNORE_EXPRESSION} ]]; then
+    echo "Skipping file by ignore expression"
+    continue
+  else
   if [[ $(isHelmRelease ${f}) == "true" ]]; then
     ${HRVAL} ${f} ${IGNORE_VALUES} ${KUBE_VER} ${HELM_VER}
     FILES_TESTED=$(( FILES_TESTED+1 ))
