@@ -41,7 +41,7 @@ for f in `find ${DIR} -type f -name '*.yaml' -or -name '*.yml'`; do
   if [[ ${f} =~ ${IGNORE_EXPRESSION} ]]; then
     echo "Skipping file by ignore expression"
     continue
-  else
+  fi
   if [[ $(isHelmRelease ${f}) == "true" ]]; then
     ${HRVAL} ${f} ${IGNORE_VALUES} ${KUBE_VER} ${HELM_VER}
     FILES_TESTED=$(( FILES_TESTED+1 ))
