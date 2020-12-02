@@ -49,7 +49,7 @@ for f in `find ${DIR} -type f -name '*.yaml' -or -name '*.yml'`; do
   else
     >&2 echo "Ignoring ${f} not a HelmRelease"
   fi
-done | parallel "${HRVAL} {} \"${IGNORE_VALUES}\" ${KUBE_VER} ${HELM_VER}"
+done | parallel --jobs 4 "${HRVAL} {} \"${IGNORE_VALUES}\" ${KUBE_VER} ${HELM_VER}"
 
 # This will set the GitHub actions output 'numFilesTested'
 echo "::set-output name=numFilesTested::${FILES_TESTED}"
