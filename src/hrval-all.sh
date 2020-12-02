@@ -8,6 +8,7 @@ IGNORE_VALUES=${2-false}
 KUBE_VER=${3-master}
 HELM_VER=${4-v2}
 IGNORE_EXPRESSION=${5}
+JOB_RUNS=${6-4}
 HRVAL="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/hrval.sh"
 
 if [[ ${HELM_VER} == "v2" ]]; then
@@ -49,7 +50,7 @@ for f in `find ${DIR} -type f -name '*.yaml' -or -name '*.yml'`; do
   else
     >&2 echo "Ignoring ${f} not a HelmRelease"
   fi
-done | parallel --jobs 4 "${HRVAL} {} \"${IGNORE_VALUES}\" ${KUBE_VER} ${HELM_VER}"
+done | parallel -j $JOB_RUNS "${HRVAL} {} \"${IGNORE_VALUES}\" ${KUBE_VER} ${HELM_VER}"
 
 # This will set the GitHub actions output 'numFilesTested'
 echo "::set-output name=numFilesTested::${FILES_TESTED}"

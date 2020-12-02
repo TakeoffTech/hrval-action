@@ -18,8 +18,11 @@ inputs:
     description: 'Version of Helm to validate against'
     default: 'v2'
   ignoreExpression:
-    default: .*
+    default: ""
     description: Expression to ignore path
+  parallelJobs:
+    default: 4
+    description: The number of conncurrent GNU parallel jobs to run
 outputs:
   numFilesTested:
     description: The number of HelmRelease files which were tested
@@ -33,3 +36,4 @@ runs:
     - ${{ inputs.kubernetesVersion }}
     - ${{ inputs.helmVersion }}
     - ${{ inputs.ignoreExpression }}
+    - ${{ inputs.parallelJobs }}
