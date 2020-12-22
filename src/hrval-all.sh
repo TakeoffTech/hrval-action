@@ -12,7 +12,7 @@ JOB_RUNS=${6-4}
 HRVAL="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/hrval.sh"
 
 if [[ ${HELM_VER} == "v2" ]]; then
-    helm init --client-only
+    helm init --client-only --stable-repo-url https://charts.helm.sh/stable
 fi
 
 # If the path provided is actually a file, just run hrval against this one file
