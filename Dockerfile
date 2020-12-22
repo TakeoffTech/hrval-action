@@ -1,7 +1,7 @@
 FROM alpine:3.12.1 AS compile-image
 
 ENV VERSION2="2.16.7" \
-    VERSION3="3.2.1" \
+    VERSION3="3.4.2" \
     BASE_URL="https://get.helm.sh"
 ENV TAR_FILEV2="helm-v${VERSION2}-linux-amd64.tar.gz" \
     TAR_FILEV3="helm-v${VERSION3}-linux-amd64.tar.gz"
@@ -32,7 +32,7 @@ COPY --from=compile-image /usr/local/bin/kubectl  /usr/local/bin/kubectl
 COPY LICENSE README.md /
 
 RUN apk add --update --no-cache curl ca-certificates bash git openssh-client parallel && \
-    helm init --client-only --kubeconfig=$HOME/.kube/kubeconfig && \
+    helm init --client-only --kubeconfig=$HOME/.kube/kubeconfig --stable-repo-url https://charts.helm.sh/stable && \
     chmod +x /usr/local/bin/kubectl /bin/kubeval /usr/local/bin/yq /bin/helmv3 /bin/helm && \
     mkdir ~/.ssh && \
     ssh-keyscan -H github.com > ~/.ssh/known_hosts
