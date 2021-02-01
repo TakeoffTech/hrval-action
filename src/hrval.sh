@@ -45,7 +45,7 @@ function clone {
   cd ${2}
   git init -q
   git remote add origin ${GIT_REPO}
-  git fetch -q origin
+  git fetch -q origin --tags
   git checkout -q ${GIT_REF}
   cd ${ORIGIN}
   echo ${2}/${CHART_PATH}
